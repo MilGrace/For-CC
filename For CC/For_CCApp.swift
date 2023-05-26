@@ -16,7 +16,7 @@ struct For_CCApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack {
                 ContentView()
 
             }

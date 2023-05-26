@@ -90,7 +90,7 @@ struct FoodInfoView: View {
     
     struct FoodInfoView_Previews: PreviewProvider {
         static var previews: some View {
-            NavigationView {
+            NavigationStack {
                 FoodInfoView()
                     
             }

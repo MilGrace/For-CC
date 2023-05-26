@@ -24,77 +24,94 @@ struct ContentView: View {
     @State var  searchItem = ""
     @State var ounceOrServing = ""
     
+    init()
+    {
+       
+    }
     var body: some View {
         VStack
         {
             HStack
             {
-                TextField("Search...", text: $searchItem)
-                    .multilineTextAlignment(.center)
-                    .textFieldStyle(.roundedBorder)
-                Button {
-                    showingAC = true
-                    //
-                    
-                    
-                }
-            label: {
-                Image(systemName: "plus.square.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.gray)
+                                
             }
-            .confirmationDialog("Select measurement", isPresented: $showingAC, titleVisibility: .visible) {
-                Button("Per ounce") {
-                    ounceOrServing = "Ounce"
-                    showAlert()
+            .toolbar {
+                ToolbarItem(placement: .principal)
+                {
+                    TextField("Search...", text: $searchItem)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(.roundedBorder)
+                        .onTapGesture {
+                                  self.hideKeyboard()
+                                }
                 }
                 
-                Button("Per serving") {
-                    ounceOrServing = "Serving"
-                    showAlert()
-                }
-                Button("Per tablespoon")
-                {
-                    ounceOrServing = "Tablespoon"
-                    showAlert()
-                }
-                Button("Per cup")
-                {
-                    ounceOrServing = "Cup"
-                    showAlert()
-                }
                 
-            }
-            .alert("Enter Info", isPresented: $showingAlert)
+                
+                ToolbarItem(placement: .navigationBarTrailing)
                 {
-                    TextField("name of food", text: $foodName)
-                    TextField("amount of carbs", text: $carbs)
-                    
-                    Button("Ok", role: .none)
-                    {
-                        print("saved")
+                    Button {
+                        showingAC = true
+                        //
                         
-                        
-                        let newFood = FoodItem(name: foodName, carbs: Double(carbs) ?? 0, index: (allFoods.allFoods).count, ounceOrServing: ounceOrServing, rounded: "")
-                        let rounded = String(format: "%.2f", newFood.carbs)
-                        newFood.rounded = rounded
-                        allFoods.allFoods.append(newFood)
-                        newFood.index = allFoods.allFoods.count - 1
-                        //amount.amountOfItems += 1
-                        saveToUserDefaults()
-                        foodName = ""
-                        carbs = ""
                         
                     }
-                    Button("Cancel", role: .cancel)
-                    {
-                        
-                    }
+                label: {
+                    Image(systemName: "plus.square.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.gray)
                 }
-                
-                
-                
+                .confirmationDialog("Select measurement", isPresented: $showingAC, titleVisibility: .visible) {
+                    Button("Per ounce") {
+                        ounceOrServing = "Ounce"
+                        showAlert()
+                    }
+                    
+                    Button("Per serving") {
+                        ounceOrServing = "Serving"
+                        showAlert()
+                    }
+                    Button("Per tablespoon")
+                    {
+                        ounceOrServing = "Tablespoon"
+                        showAlert()
+                    }
+                    Button("Per cup")
+                    {
+                        ounceOrServing = "Cup"
+                        showAlert()
+                    }
+                    
+                }
+                .alert("Enter Info", isPresented: $showingAlert)
+                    {
+                        TextField("name of food", text: $foodName)
+                        TextField("amount of carbs", text: $carbs)
+                        
+                        Button("Ok", role: .none)
+                        {
+                            print("saved")
+                            
+                            
+                            let newFood = FoodItem(name: foodName, carbs: Double(carbs) ?? 0, index: (allFoods.allFoods).count, ounceOrServing: ounceOrServing, rounded: "")
+                            let rounded = String(format: "%.2f", newFood.carbs)
+                            newFood.rounded = rounded
+                            allFoods.allFoods.append(newFood)
+                            newFood.index = allFoods.allFoods.count - 1
+                            //amount.amountOfItems += 1
+                            saveToUserDefaults()
+                            foodName = ""
+                            carbs = ""
+                            
+                        }
+                        Button("Cancel", role: .cancel)
+                        {
+                            
+                        }
+                    }
+                    
+                }
             }
             
             
@@ -112,7 +129,11 @@ struct ContentView: View {
                                     .foregroundColor(.white)
                                     .font(.largeTitle)
                                     .frame(width: 300, height: 100)
-                                    .background(.gray)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .foregroundColor(.gray)
+                                    )
+                                    
                             }
                             
                             //                        NavigationLink(item.name) {
@@ -156,6 +177,7 @@ struct ContentView: View {
             
             
         }
+        .preferredColorScheme(.light)
         
         .padding()
     }
@@ -224,17 +246,21 @@ struct ContentView: View {
         
         print(amount.amountOfItems)
     }
+    func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             ContentView()
                 
         }
         .environmentObject(AmountOfItems())
         .environmentObject(ArrayClass())
         .environmentObject(FoodItem(name:"", carbs: 0, index: 0, ounceOrServing: "", rounded:""))
+        .preferredColorScheme(.dark)
         
     }
 }
