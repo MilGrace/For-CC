@@ -87,8 +87,9 @@ struct ContentView: View {
                 .alert("Enter Info", isPresented: $showingAlert)
                     {
                         TextField("name of food", text: $foodName)
+                            .foregroundColor(.black)
                         TextField("amount of carbs", text: $carbs)
-                        
+                            .foregroundColor(.black)
                         Button("Ok", role: .none)
                         {
                             print("saved")
@@ -177,7 +178,7 @@ struct ContentView: View {
             
             
         }
-        .preferredColorScheme(.light)
+        
         
         .padding()
     }
