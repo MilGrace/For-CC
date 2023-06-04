@@ -87,7 +87,7 @@ struct ContentView: View {
                 .alert("Enter Info", isPresented: $showingAlert)
                     {
                         TextField("name of food", text: $foodName)
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                         TextField("amount of carbs", text: $carbs)
                             .foregroundColor(.black)
                         Button("Ok", role: .none)
@@ -162,7 +162,9 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                                 .font(.largeTitle)
                                 .frame(width: 300, height: 100)
-                                .background(.gray)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .foregroundColor(.gray))
                                 
                             }
                         }
